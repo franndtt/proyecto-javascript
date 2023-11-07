@@ -10,6 +10,7 @@ function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
     }
   }
   
+  
   while (true) {
   bienvenido = prompt("Bienvenido al contador de calorías de mantenimiento. Para seguir, escriba CONTINUAR, o para salir, escriba CANCELAR");
   
@@ -79,17 +80,127 @@ function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
     }
   
     caloriasDeMantenimiento = calcularCaloriasMantenimiento(peso, altura, edad, actividad);
-  
+
     if (actividad == "LIGERO" || actividad == "MODERADO" || actividad == "ACTIVO") {
-      console.log("Gracias por utilizar nuestro servicio. Sus calorías de mantenimiento son de " + caloriasDeMantenimiento);
-      break;
-    } 
+  console.log("Gracias por utilizar nuestro servicio. Sus calorías de mantenimiento son de " + caloriasDeMantenimiento);
+  break; 
+}
+}
+
+const planesAlimentacion = [
+  { nombre: "Plan alimentación", precio: 4000 },
+  { nombre: "Plan alimentación completo", precio: 6300 },
+  { nombre: "Plan alimentación y entrenamiento completo", precio: 7900 },
+];
+
+let seleccionarPrecio;
+let venta;
+let planes;
+
+
+
+while (true) {
+  venta = prompt("Ahora que sabe sus requerimientos, escriba CONTINUAR para seguir y comprar un plan de alimentación, o para salir, escriba CANCELAR");
+
+  if (venta === "CANCELAR" || venta === "cancelar") {
+    break;
+  }
+
+  if (venta !== "CONTINUAR" && venta !== "continuar") {
+    console.log("Palabra no registrada. Para seguir, escriba CONTINUAR, o para salir, escriba CANCELAR");
+    continue;
+  }
+
+  planes = prompt("1- Descenso de peso / Pérdida de grasa, 2- Aumento de masa muscular. Escriba el número según el plan que requiere. O para salir, escriba CANCELAR ");
+
+  if (planes === "CANCELAR" || planes === "cancelar") {
+    break;
+  }
+
   
-    else {
-      console.log("Por favor, ingrese un nivel de actividad válido.");
+  if (planes === "1") {
+    console.log("Usted seleccionó el plan Descenso de peso / Pérdida de grasa");
+    
+    seleccionarPrecio = prompt("Escriba un rango de precio entre $4000-$8000 y el sistema le dirá el plan que se adapte a su presupuesto. O para salir, escriba CANCELAR");
+
+    if (seleccionarPrecio === "CANCELAR" || seleccionarPrecio === "cancelar") {
+      break;
+    }
+
+    seleccionarPrecio = parseInt(seleccionarPrecio);
+
+    if (isNaN(seleccionarPrecio) || seleccionarPrecio < 4000 || seleccionarPrecio > 8000) {
+      console.log("Ingrese un valor válido dentro del rango de precio.");
       continue;
     }
+    const planAdecuado = planesAlimentacion
+    .filter(plan => plan.precio >= 4000 && plan.precio <= 8000)
+    .reduce((planPrevio, planActual) => {
+      const diferenciaPrevia = Math.abs(planPrevio.precio - seleccionarPrecio);
+      const diferenciaActual = Math.abs(planActual.precio - seleccionarPrecio);
+      return diferenciaActual < diferenciaPrevia ? planActual : planPrevio;
+    });
+
+  console.log("El plan adecuado para su presupuesto es:");
+  console.log(planAdecuado);  
+  
+  planAdecuadoEncontrado = true;
+  break;
+
+  
+
+    
   }
+
+  if (planes === "2") {
+    console.log("Usted seleccionó el plan Aumento de masa muscular");
+    
+    seleccionarPrecio = prompt("Escriba un rango de precio entre $4000-$8000 y el sistema le dirá el plan que se adapte a su presupuesto. O para salir, escriba CANCELAR");
+
+    if (seleccionarPrecio === "CANCELAR" || seleccionarPrecio === "cancelar") {
+      break;
+    }
+
+    seleccionarPrecio = parseInt(seleccionarPrecio);
+
+    if (isNaN(seleccionarPrecio) || seleccionarPrecio < 4000 || seleccionarPrecio > 8000) {
+      console.log("Ingrese un valor válido dentro del rango de precio.");
+      continue;
+    }
+
+    const planAdecuado = planesAlimentacion
+    .filter(plan => plan.precio >= 4000 && plan.precio <= 8000)
+    .reduce((planPrevio, planActual) => {
+      const diferenciaPrevia = Math.abs(planPrevio.precio - seleccionarPrecio);
+      const diferenciaActual = Math.abs(planActual.precio - seleccionarPrecio);
+      return diferenciaActual < diferenciaPrevia ? planActual : planPrevio;
+    });
+
+  console.log("El plan adecuado para su presupuesto es:");
+  console.log(planAdecuado);  
+
+  planAdecuadoEncontrado = true;
+  break;
+
+    
+  }
+
+  if (planes !== "1" && planes !== "2") {
+    console.log("Por favor, ingrese un valor correcto.");
+    continue;
+  }
+
+  if (planAdecuadoEncontrado) {
+    console.log("Gracias por utilizar nuestro servicio.");
+  }  
+
+  
+
+}
+
+  
+
+
 
 
 
