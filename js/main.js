@@ -1,3 +1,5 @@
+
+
 function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
     if (actividad === "LIGERO") {
       return 1.375 * (655 + 9.6 * peso + 1.8 * altura - 4.7 * edad);
@@ -10,7 +12,11 @@ function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
     }
   }
   
-  
+
+let userData = null;
+let planAdecuadoEncontrado = false;
+let planAdecuado = null; 
+
   while (true) {
   bienvenido = prompt("Bienvenido al contador de calorías de mantenimiento. Para seguir, escriba CONTINUAR, o para salir, escriba CANCELAR");
   
@@ -22,6 +28,12 @@ function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
       console.log("Palabra no registrada. Para seguir, escriba CONTINUAR, o para salir, escriba CANCELAR");
       continue;
     }
+
+    nombre = prompt("Ingrese su nombre para continuar, o para salir, escriba CANCELAR");
+
+    if (nombre === "CANCELAR" || nombre === "cancelar") {
+      break;
+    }  
   
   edad = prompt("Ingrese su edad para continuar, o para salir, escriba CANCELAR");
   
@@ -82,10 +94,20 @@ function calcularCaloriasMantenimiento(peso, altura, edad, actividad) {
     caloriasDeMantenimiento = calcularCaloriasMantenimiento(peso, altura, edad, actividad);
 
     if (actividad == "LIGERO" || actividad == "MODERADO" || actividad == "ACTIVO") {
-  console.log("Gracias por utilizar nuestro servicio. Sus calorías de mantenimiento son de " + caloriasDeMantenimiento);
-  break; 
+      console.log("Gracias por utilizar nuestro servicio. Sus calorías de mantenimiento son de " + caloriasDeMantenimiento);
+      userData = {
+        nombre: nombre,
+        edad: edad,
+        altura: altura,
+        peso: peso,
+        actividad: actividad,
+        caloriasDeMantenimiento: caloriasDeMantenimiento,
+        planSeleccionado: planAdecuado
+      };
+      break; 
+    }
 }
-}
+
 
 const planesAlimentacion = [
   { nombre: "Plan alimentación", precio: 4000 },
@@ -133,7 +155,7 @@ while (true) {
       console.log("Ingrese un valor válido dentro del rango de precio.");
       continue;
     }
-    const planAdecuado = planesAlimentacion
+    planAdecuado = planesAlimentacion
     .filter(plan => plan.precio >= 4000 && plan.precio <= 8000)
     .reduce((planPrevio, planActual) => {
       const diferenciaPrevia = Math.abs(planPrevio.precio - seleccionarPrecio);
@@ -141,11 +163,15 @@ while (true) {
       return diferenciaActual < diferenciaPrevia ? planActual : planPrevio;
     });
 
-  console.log("El plan adecuado para su presupuesto es:");
-  console.log(planAdecuado);  
-  
-  planAdecuadoEncontrado = true;
-  break;
+    console.log("El plan adecuado para su presupuesto es:");
+    console.log(planAdecuado);
+
+    planAdecuadoEncontrado = true;
+    break;
+  }
+
+  if (planes === "2") {
+    console.log("Usted seleccionó el plan Aumento de masa muscular");
 
   
 
@@ -168,7 +194,7 @@ while (true) {
       continue;
     }
 
-    const planAdecuado = planesAlimentacion
+     planAdecuado = planesAlimentacion
     .filter(plan => plan.precio >= 4000 && plan.precio <= 8000)
     .reduce((planPrevio, planActual) => {
       const diferenciaPrevia = Math.abs(planPrevio.precio - seleccionarPrecio);
@@ -185,6 +211,7 @@ while (true) {
     
   }
 
+
   if (planes !== "1" && planes !== "2") {
     console.log("Por favor, ingrese un valor correcto.");
     continue;
@@ -192,11 +219,41 @@ while (true) {
 
   if (planAdecuadoEncontrado) {
     console.log("Gracias por utilizar nuestro servicio.");
-  }  
-
+  } 
   
 
+ 
+  
+  
+
+  
 }
+
+if (userData) {
+  localStorage.setItem('userData', JSON.stringify(userData));
+
+  const userDataContainer = document.getElementById('userDataContainer');
+  userDataContainer.innerHTML = `
+    <h2>Datos del Usuario</h2>
+    <p>Nombre: ${userData.nombre}</p>
+    <p>Edad: ${userData.edad}</p>
+    <p>Altura: ${userData.altura} CM</p>
+    <p>Peso: ${userData.peso} KG</p>
+    <p>Actividad: ${userData.actividad}</p>
+    <p>Calorías de Mantenimiento: ${userData.caloriasDeMantenimiento}</p>
+    <p>Plan Seleccionado: ${userData.planSeleccionado ? userData.planSeleccionado.nombre : 'No seleccionado'}</p>
+  `;
+
+  
+  userDataContainer.style.display = 'block';
+}
+
+
+
+
+
+
+
 
   
 
